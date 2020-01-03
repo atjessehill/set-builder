@@ -1,0 +1,15 @@
+<div class="list-hoverable">
+
+    <!-- Song Display -->
+    <div *ngIf="!isPlaylists">
+        <div *ngFor="let playlist of playlists" id="playlist-song-list" cdkDropList cdkDropListConnectedTo="search-song-list" (cdkDropListDropped)="drop($event)">
+            <a class="btn list-item" id={{playlist.id}} cdkDrag>{{playlist.name}}</a>
+        </div>
+    </div>
+    <!-- Playlist Display -->
+    <div *ngIf="isPlaylists">
+        <div *ngFor="let playlist of playlists">
+            <a class="btn list-item" (click)="playlistClicked($event)" id={{playlist.id}}>{{playlist.name}}</a>
+        </div>
+    </div>
+</div>

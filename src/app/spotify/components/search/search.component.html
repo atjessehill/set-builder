@@ -1,0 +1,30 @@
+<div class="field">
+    <label class="label">Search</label>
+    <div class="control">
+        <input #search_query class="input" type="text" (keyup)="search(search_query.value)" placeholder="Search Query...">
+    </div>
+</div>
+<div class="field is-horizontal">
+    <div class="field-label is-normal">
+        <label class="label">Song Seeds</label>
+    </div>
+    <div class="field-body">
+        <div class="field">
+            <div class="control">
+                <textarea class="textarea"></textarea>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<button class="button" (click)="fetchRecommendations()"> </button>
+<div cdkDropList id="search-song-list" cdkDropListConnectedTo="playlist-song-list" class="list-hoverable" (cdkDropListDropped)="listDrop($event)">
+    <p> Put Your Song seeds here</p>
+    <div *ngFor="let song of seedSongs" cdkDrag>
+        <div>
+            <a class="list-item ">{{song.name}}</a>
+            <button class="button is-small is-danger" (click)="removeSeed($event)">x</button>
+        </div>
+
+    </div>
+</div>
