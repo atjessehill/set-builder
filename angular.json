@@ -29,7 +29,8 @@
             ],
             "styles": [
               "node_modules/bulma/css/bulma.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ng-knob/dist/ngKnob.css"
             ],
             "scripts": []
           },

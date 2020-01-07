@@ -1,0 +1,22 @@
+.songSeeds{
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 165px;
+    background-color: grey;
+    width: 100%;
+}
+
+.seedItemMain{
+    height: 30px;
+    padding: 5px;
+    max-width: 85%;
+    font-size-adjust: .85;
+}
+
+.seedItem{
+    padding-left: 10%;
+}
+
+.seedRemove{
+    display:inline;
+}

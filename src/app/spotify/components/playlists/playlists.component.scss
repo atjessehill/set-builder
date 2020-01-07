@@ -1,0 +1,28 @@
+.playlistContainer{
+    background: black;
+}
+
+.list-item{
+    color: white;
+    background-color: black;
+    font-size: 13px;
+}
+
+.ex {
+    padding: 2rem;
+    border: 1px solid grey;
+  }
+  .separator {
+    border: 1px solid grey;
+    margin: 1rem 0;
+  }
+  p {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: .8rem;
+    text-transform: uppercase;
+    color: gray;
+    text-decoration: underline;
+    padding: 1rem 0;
+  }

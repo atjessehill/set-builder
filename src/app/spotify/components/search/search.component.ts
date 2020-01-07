@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from 'src/app/core/services/spotify.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-
+import { NgKnob } from 'node_modules/ng-knob/dist/ngKnob.js';
+import { Options, ChangeContext } from 'ng5-slider';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -9,7 +10,11 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class SearchComponent {
 
+  // Collectors for request params
   seedSongs: any[] = [];
+  seedArtists: any[] = [];
+  audioFeatures = {};
+  recommendedSongs: any[] = [];
 
   constructor(private spotify: SpotifyService) {
 
@@ -42,14 +47,95 @@ export class SearchComponent {
     console.log(event);
   }
 
+
   fetchRecommendations(){
     console.log("Fetch Recommendations");
+
+
+    
+
+
     this.spotify.getRecommendations(this.seedSongs)
       .subscribe( (data: any) => {
         console.log(data);
-
+        this.recommendedSongs = data;
+        
       });
   }
+
+  //get debugging values
+
+  
+
+  // Slider values
+
+
+  popularityVal: number = 0;
+  energyVal: number = 0;
+  vocalsVal: number = 0;
+  tempoVal: number = 0;
+  danceableVal: number = 0;
+  moodVal: number = 0;
+  acousticVal: number = 0;
+
+  popularityHigh: number = 1;
+  energyHigh: number = 1;
+  vocalsHigh: number = 1;
+  tempoHigh: number = 1;
+  danceableHigh: number = 1;
+  moodHigh: number = 1;
+  acousticHigh: number = 1;
+
+  popularityOptions: Options = {
+    floor: 0.0,
+    ceil: 1,
+    step: 0.01,
+    showTicks: true
+  }
+
+  energyOptions: Options = {
+    floor: 0.0,
+    ceil: 1,
+    step: 0.01,
+    showTicks: true
+  }
+
+  vocalsOptions: Options = {
+    floor: 0.0,
+    ceil: 1,
+    step: 0.01,
+    showTicks: true
+  }
+
+  tempoOptions: Options = {
+    floor: 0.0,
+    ceil: 1,
+    step: 0.01,
+    showTicks: true
+  }
+
+  danceableOptions: Options = {
+    floor: 0.0,
+    ceil: 1,
+    step: 0.01,
+    showTicks: true
+  }
+
+  moodOptions: Options = {
+    floor: 0.0,
+    ceil: 1,
+    step: 0.01,
+    showTicks: true
+  }
+
+  acousticOptions: Options = {
+    floor: 0.0,
+    ceil: 1,
+    step: 0.01,
+    showTicks: true
+  }
+
+
 
 }
 

@@ -1,4 +1,4 @@
-<div class="field">
+<!-- <div class="field">
     <label class="label">Search</label>
     <div class="control">
         <input #search_query class="input" type="text" (keyup)="search(search_query.value)" placeholder="Search Query...">
@@ -16,10 +16,81 @@
         </div>
     </div>
     
+</div> -->
+
+
+
+
+<div class="section">
+
+    <button class="button" (click)="fetchRecommendations()"> </button>
+
+
+    <div class="attributeSelector">
+
+        <p>Popularity</p>
+        <div class="custom-slider"> 
+            <ng5-slider [(value)]="popularityVal" [(highValue)]="popularityHigh" [options]="popularityOptions"></ng5-slider>
+        </div>
+        
+        <p>Energy</p>
+        <div class="custom-slider"> 
+            <ng5-slider [(value)]="energyVal" [(highValue)]="energyHigh" [options]="energyOptions"></ng5-slider>
+        </div>
+        
+        <p>Vocals</p>
+        <div class="custom-slider"> 
+            <ng5-slider [(value)]="vocalsVal" [(highValue)]="vocalsHigh" [options]="vocalsOptions"></ng5-slider>
+        </div>
+
+        <p>Tempo</p>
+        <div class="custom-slider"> 
+            <ng5-slider [(value)]="tempoVal" [(highValue)]="tempoHigh" [options]="tempoOptions"></ng5-slider>
+        </div>
+
+        <p>Danceability</p>
+        <div class="custom-slider"> 
+            <ng5-slider [(value)]="danceableVal" [(highValue)]="danceableHigh" [options]="danceableOptions"></ng5-slider>
+        </div>
+
+        <p>Mood</p>
+        <div class="custom-slider"> 
+            <ng5-slider [(value)]="moodVal" [(highValue)]="moodHigh" [options]="moodOptions"></ng5-slider>
+        </div>
+
+        <p>Acoustics</p>
+        <div class="custom-slider"> 
+            <ng5-slider [(value)]="acousticVal" [(highValue)]="acousticHigh" [options]="acousticOptions"></ng5-slider>
+        </div>
+
+    </div>
+
+    
+
+
+
+    <div class="allSeeds">
+        <div class="artistSeeds">
+    
+        </div>
+    
+        <div cdkDropList id="search-song-list" class="songSeeds list-hoverable" cdkDropListConnectedTo="playlist-song-list" (cdkDropListDropped)="listDrop($event)">
+            <div *ngFor="let song of seedSongs" cdkDrag>
+                <div class="seedItemMain">
+                    <a class="seedItem">{{song.name}}</a>
+                    <button class="button is-small is-danger seedRemove" (click)="removeSeed($event)">x</button>
+                </div>
+        
+            </div>
+            
+        </div>
+    </div>
+
 </div>
-<button class="button" (click)="fetchRecommendations()"> </button>
+
+<!-- 
+
 <div cdkDropList id="search-song-list" cdkDropListConnectedTo="playlist-song-list" class="list-hoverable" (cdkDropListDropped)="listDrop($event)">
-    <p> Put Your Song seeds here</p>
     <div *ngFor="let song of seedSongs" cdkDrag>
         <div>
             <a class="list-item ">{{song.name}}</a>
@@ -28,3 +99,9 @@
 
     </div>
 </div>
+
+<div>
+    <div *ngFor="let track of recommendedSongs" id="recommended-song-list">
+        <a class="btn list-item" id={{track.id}} >{{track.trackName}}, {{track.artistString}}</a>
+    </div>
+</div> -->

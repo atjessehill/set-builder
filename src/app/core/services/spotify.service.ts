@@ -34,7 +34,7 @@ export class SpotifyService {
   getAllPlaylists(){
 
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer BQBMbNRrAEElwXg_DWokkECu850KWgZeeY7owK2ITITbCWvUnrILWXHDojF_pDB316pp-CTh1VpPUDiIT0tzWSG6LyFe4qkBfo828j_LenTdXmvZ1SJ9K2KZr2-oR_5pSPwlKVM26wElpOPOR_m89N957vUHJZ_lnffPvlFQqAoOMGYLjvqfU2M-lWS65DWb35-KNmyJobyF7A'
+      'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
 
 
     });
@@ -48,8 +48,7 @@ export class SpotifyService {
 
   getPlaylistTracks(playlistId: string){
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer BQBMbNRrAEElwXg_DWokkECu850KWgZeeY7owK2ITITbCWvUnrILWXHDojF_pDB316pp-CTh1VpPUDiIT0tzWSG6LyFe4qkBfo828j_LenTdXmvZ1SJ9K2KZr2-oR_5pSPwlKVM26wElpOPOR_m89N957vUHJZ_lnffPvlFQqAoOMGYLjvqfU2M-lWS65DWb35-KNmyJobyF7A'
-
+      'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
     });
 
     var url = 'https://api.spotify.com/v1/playlists/'.concat(playlistId,'/tracks');
@@ -75,7 +74,7 @@ export class SpotifyService {
     seedTracks = seedTracks.replace(/,\s*$/, "");
 
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer BQBMbNRrAEElwXg_DWokkECu850KWgZeeY7owK2ITITbCWvUnrILWXHDojF_pDB316pp-CTh1VpPUDiIT0tzWSG6LyFe4qkBfo828j_LenTdXmvZ1SJ9K2KZr2-oR_5pSPwlKVM26wElpOPOR_m89N957vUHJZ_lnffPvlFQqAoOMGYLjvqfU2M-lWS65DWb35-KNmyJobyF7A'
+      'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
 
     });
 
@@ -88,9 +87,10 @@ export class SpotifyService {
         tracksJSON.forEach(track => {
 
           let trackArtists = [];
-          
+          let artistConcat = "";
           track['artists'].forEach(artist =>{
             
+            artistConcat = artistConcat.concat(artist['name'],',');
             trackArtists.push({
               artistId: artist['id'],
               artistName: artist['name'],
@@ -102,6 +102,7 @@ export class SpotifyService {
           tracks.push({
             id: track['id'],
             artist: trackArtists,
+            artistString: artistConcat,
             trackName: track['name'],
             albumName: track['album']['name']
           });
