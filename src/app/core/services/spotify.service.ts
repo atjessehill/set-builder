@@ -64,54 +64,61 @@ export class SpotifyService {
 
   }
 
-  getRecommendations(songSeeds){
-
-    var seedTracks = "seed_tracks=";
-    songSeeds.forEach(song => {
-      seedTracks = seedTracks.concat(song.id,',');
-    });
-
-    seedTracks = seedTracks.replace(/,\s*$/, "");
-
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
-
-    });
-
-    var url = 'https://api.spotify.com/v1/recommendations?'.concat(seedTracks);
+  getRecommendations(preferences){
+    console.log(preferences.seedSongs);
     
-    return this.http.get(url, {  headers  })
-      .pipe( map(data => {
-        let tracksJSON = data['tracks'];
-        let tracks = [];
-        tracksJSON.forEach(track => {
 
-          let trackArtists = [];
-          let artistConcat = "";
-          track['artists'].forEach(artist =>{
+    // if (preferences.seedSongs.length > 0):
+
+
+
+
+    // var seedTracks = "seed_tracks=";
+    // songSeeds.forEach(song => {
+    //   seedTracks = seedTracks.concat(song.id,',');
+    // });
+
+    // seedTracks = seedTracks.replace(/,\s*$/, "");
+
+    // const headers = new HttpHeaders({
+    //   'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
+
+    // });
+
+    // var url = 'https://api.spotify.com/v1/recommendations?'.concat(seedTracks);
+    
+    // return this.http.get(url, {  headers  })
+    //   .pipe( map(data => {
+    //     let tracksJSON = data['tracks'];
+    //     let tracks = [];
+    //     tracksJSON.forEach(track => {
+
+    //       let trackArtists = [];
+    //       let artistConcat = "";
+    //       track['artists'].forEach(artist =>{
             
-            artistConcat = artistConcat.concat(artist['name'],',');
-            trackArtists.push({
-              artistId: artist['id'],
-              artistName: artist['name'],
-              type: 'artist'
-            });
+    //         artistConcat = artistConcat.concat(artist['name'],',');
+    //         trackArtists.push({
+    //           artistId: artist['id'],
+    //           artistName: artist['name'],
+    //           type: 'artist'
+    //         });
 
-          });
+    //       });
 
-          tracks.push({
-            id: track['id'],
-            artist: trackArtists,
-            artistString: artistConcat,
-            trackName: track['name'],
-            albumName: track['album']['name']
-          });
+    //       tracks.push({
+    //         id: track['id'],
+    //         artist: trackArtists,
+    //         artistString: artistConcat,
+    //         trackName: track['name'],
+    //         albumName: track['album']['name']
+    //       });
 
-        });
+    //     });
 
-        return tracks;
-        // return data['tracks'];
-      }));
+    //     return tracks;
+    //     // return data['tracks'];
+    //   }));
 
   }
 

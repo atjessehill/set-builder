@@ -52,15 +52,29 @@ export class SearchComponent {
     console.log("Fetch Recommendations");
 
 
-    
+    let vals = {
+      seedSongs : this.seedSongs,
+      popularityMin: this.popularityVal,
+      popularityMax: this.popularityHigh,
+      energyMin: this.energyVal,
+      energyMax: this.energyHigh,
+      vocalsMin: this.vocalsVal,
+      vocalsMax: this.vocalsHigh,
+      tempoMin: this.tempoVal,
+      tempoMax: this.tempoHigh,
+      danceableMin: this.danceableVal,
+      danceableMax: this.danceableHigh,
+      valenceMin: this.valenceVal,
+      valenceMax: this.valenceHigh,
 
+    }
 
-    this.spotify.getRecommendations(this.seedSongs)
-      .subscribe( (data: any) => {
-        console.log(data);
-        this.recommendedSongs = data;
+    this.spotify.getRecommendations(vals);
+      // .subscribe( (data: any) => {
+      //   console.log(data);
+      //   this.recommendedSongs = data;
         
-      });
+      // });
   }
 
   //get debugging values
@@ -75,64 +89,75 @@ export class SearchComponent {
   vocalsVal: number = 0;
   tempoVal: number = 0;
   danceableVal: number = 0;
-  moodVal: number = 0;
-  acousticVal: number = 0;
+  valenceVal: number = 0;
+  instrumentalVal: number = 0;
 
-  popularityHigh: number = 1;
+  popularityHigh: number = 100;
   energyHigh: number = 1;
   vocalsHigh: number = 1;
   tempoHigh: number = 1;
   danceableHigh: number = 1;
-  moodHigh: number = 1;
-  acousticHigh: number = 1;
+  valenceHigh: number = 1;
+  instrumentalHigh: number = 1;
 
   popularityOptions: Options = {
-    floor: 0.0,
-    ceil: 1,
-    step: 0.01,
-    showTicks: true
+    floor: 0,
+    ceil: 100,
+    step: 1,
+    showTicks: true,
+    tickStep: 10,
   }
 
   energyOptions: Options = {
     floor: 0.0,
     ceil: 1,
     step: 0.01,
-    showTicks: true
+    showTicks: true,
+    tickStep: .10
   }
 
   vocalsOptions: Options = {
     floor: 0.0,
     ceil: 1,
     step: 0.01,
-    showTicks: true
+    showTicks: true,
+    tickStep: .10
+
   }
 
   tempoOptions: Options = {
     floor: 0.0,
     ceil: 1,
     step: 0.01,
-    showTicks: true
+    showTicks: true,
+    tickStep: .10
+
   }
 
   danceableOptions: Options = {
     floor: 0.0,
     ceil: 1,
     step: 0.01,
-    showTicks: true
+    showTicks: true,
+    tickStep: .10
+
   }
 
-  moodOptions: Options = {
+  valenceOptions: Options = {
     floor: 0.0,
     ceil: 1,
     step: 0.01,
-    showTicks: true
+    showTicks: true,
+    tickStep: .10,
   }
 
-  acousticOptions: Options = {
+  instrumentalOptions: Options = {
     floor: 0.0,
     ceil: 1,
     step: 0.01,
-    showTicks: true
+    showTicks: true,
+    tickStep: .10
+
   }
 
 
