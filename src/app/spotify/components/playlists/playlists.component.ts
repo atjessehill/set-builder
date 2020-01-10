@@ -18,6 +18,11 @@ export class PlaylistsComponent implements OnInit {
   constructor( private spotify: SpotifyService) { 
     // this.playlists = this.spotify.getNewReleases();
 
+    this.getPlaylists();
+
+  }
+
+  getPlaylists(){
     if (this.debugging){
       this.playlists = [{id: "0iGABH7qHUQpHsz0yaUxTV", name: "BIG TESTS GOING ON ", type: "playlist"},
       {id: "3DuqCNmSiCmolLzycHAKTJ", name: "baaeline ", type: "playlist"},
@@ -71,8 +76,14 @@ export class PlaylistsComponent implements OnInit {
 
   }
 
-  playlistClicked(event){
+  backtoPlaylists(){
+    this.isPlaylists = true;
+    this.getPlaylists();
 
+  }
+
+  playlistClicked(event){
+    console.log('double click');
     // var split = (event.toElement.id).split('.');
     var playlistId = event.toElement.id;
     this.isPlaylists = false;

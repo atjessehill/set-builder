@@ -1,14 +1,60 @@
 .playlistContainer{
-    background: black;
+    background: #black;
+    min-height: 100%;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
-.list-item{
-    color: white;
-    background-color: black;
-    font-size: 13px;
+.odd{
+  background-color: #272a2e;
 }
 
-.ex {
+.even{
+  background-color: #4a4d52;
+}
+
+.playlist-item-container{
+  background-color: black;
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+
+.playlist-song-item{
+  font-size: 18px;
+  font-style: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+.playlist-item{
+
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.playlist-link{
+  color: white;
+  font-size: 18px;
+  font-style: bold;
+}
+
+.song-link{
+  color: white;
+  font-size: 18px;
+  font-style: bold;
+}
+
+  img{
+    margin-right: 10px;
+  }
+  a{
+
+  }
+
+  .ex {
     padding: 2rem;
     border: 1px solid grey;
   }

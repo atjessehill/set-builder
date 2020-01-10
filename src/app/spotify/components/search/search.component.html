@@ -74,16 +74,7 @@
     
         </div>
     
-        <div cdkDropList id="search-song-list" class="songSeeds list-hoverable" cdkDropListConnectedTo="playlist-song-list" (cdkDropListDropped)="listDrop($event)">
-            <div *ngFor="let song of seedSongs" cdkDrag>
-                <div class="seedItemMain">
-                    <a class="seedItem">{{song.name}}</a>
-                    <button class="button is-small is-danger seedRemove" (click)="removeSeed($event)">x</button>
-                </div>
-        
-            </div>
-            
-        </div>
+
     </div>
 
 </div>

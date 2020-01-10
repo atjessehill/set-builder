@@ -16,3 +16,27 @@
 .valueSelectors{
     
 }
+
+.seeds{
+    border: 1px solid black;
+    border-radius: 25px;
+    height: 165px;
+    background-color: grey;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.seedItemMain{
+    height: 30px;
+    padding: 5px;
+    max-width: 85%;
+    font-size-adjust: .85;
+}
+
+.seedItem{
+    padding-left: 10%;
+}
+
+.seedRemove{
+    display:inline;
+}

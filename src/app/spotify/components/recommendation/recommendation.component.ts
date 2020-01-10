@@ -39,19 +39,20 @@ export class RecommendationComponent implements OnInit {
 
   }
 
+  seedSongs: any[] = [];
+  seedArtists: any[] = [];
+
   danceableRange: boolean = true;
   acousticRange: boolean = true;
   energyRange: boolean = true;
   instrumentalRange: boolean = true;
-  songSeeds = [];
-  artistSeeds = [];
   
 
 
 
   submitRecs(){
     
-    if (this.songSeeds.length > 0 || this.artistSeeds.length > 0){
+    if (this.seedSongs.length > 0 || this.seedArtists.length > 0){
 
 
       var targets = [];
@@ -68,6 +69,23 @@ export class RecommendationComponent implements OnInit {
     console.log("is 0");
   }
 
+  listDrop(event){
+    var songId = event.item.element.nativeElement.id;
+    var songName = event.item.element.nativeElement.text;
+
+
+    if (!this.seedSongs.some(e => e.id == songId) && songId != "" && this.seedSongs.length < 5)
+    {
+      this.seedSongs.push(
+        {
+          id: songId,
+          name: songName,
+          type: "track"
+        }
+      )
+    }
+
+  }
 
   changeBtnDance(event){
 
