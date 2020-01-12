@@ -14,7 +14,7 @@
     <div class="seeds">
         <div *ngFor="let song of seedSongs">
             <a class="seedItem">{{song.name}}</a>
-            <button class="button is-small is-danger seedRemove" (click)="removeSeed($event)">x</button>
+            <button id="{{song.id}}" class="button is-small is-danger seedRemove" (click)="removeSeed($event)">x</button>
         </div>
     </div>
 
@@ -75,6 +75,62 @@
             </div>
         </div>
     
+    </div>
+
+</div>
+
+<div class="section">
+    <div class="container playlistContainer">
+        <!-- <div class="list-hoverable ">
+            <div *ngIf="!isPlaylists">
+                    <div *ngFor="let playlist of playlists" id="playlist-song-list" cdkDropList cdkDropListConnectedTo="search-song-list" (cdkDropListDropped)="drop($event)">
+                            <a class="btn list-item" id={{playlist.id}} cdkDrag>{{playlist.name}}</a>
+                        
+                    </div>
+            </div>
+            <div *ngIf="isPlaylists">
+                <div *ngFor="let playlist of playlists">
+                    <a class="btn list-item" (click)="playlistClicked($event)" id={{playlist.id}}>{{playlist.name}}</a>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="playlist-item-container">
+            <div *ngIf="!isPlaylists">
+                <button class="button is-success" (click)="backtoPlaylists()">Back</button>
+                <!-- <div *ngFor="let playlist of playlists index as i; odd as isOdd; even as isEven"
+                [class.odd]="isOdd"
+                [class.even]="isEven" 
+                id="playlist-song-list" cdkDropList cdkDropListConnectedTo="search-song-list" (cdkDropListDropped)="drop($event)">
+                    <a class="btn playlist-song-item" id={{playlist.id}} cdkDrag>{{playlist.name}}</a>
+                </div> -->
+
+                <div *ngFor="let playlist of playlists index as i; odd as isOdd; even as isEven"
+                [class.odd]="isOdd"
+                [class.even]="isEven">
+
+                    <div class="playlist-song-item">
+                        <a class="btn song-link" (click)="addSong($event)" id={{playlist.id}}>{{playlist.name}}</a>
+                        <!-- <img (click)="addSong()" src="/assets/img/spotify/playlist-plus.png" alt=""> -->
+                    </div>
+                </div>
+
+
+            </div>
+            <div *ngIf="isPlaylists">
+                <div *ngFor="let playlist of playlists">
+                    <div class="playlist-item">
+                        <img src="/assets/img/spotify/playlist-icon-white.png" alt="">
+                        <a class="btn playlist-link" (click)="playlistClicked($event)" id={{playlist.id}}>{{playlist.name}}</a>   
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        
     </div>
 
 </div>
