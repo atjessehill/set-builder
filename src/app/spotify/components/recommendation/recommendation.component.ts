@@ -101,10 +101,10 @@ export class RecommendationComponent implements OnInit {
   submitRecs(){
     
     let formraw = this.recSettings.getRawValue();
-
+    // console.log(formraw);
     Object.keys(this.recSettings.controls).forEach(key => {
 
-      let item = this.recSettings.controls[key].getRawValue();
+      let item = this.recSettings.controls[key].value;
 
       if (!item['selectTarget'] && item['minVal'] == '0.0' && item['maxVal'] == '1.0'){
         delete formraw[key];
