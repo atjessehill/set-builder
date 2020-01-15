@@ -65,7 +65,19 @@ export class SpotifyService {
   }
 
   getRecommendations(preferences){
-    console.log(preferences.seedSongs);
+    console.log()
+    console.log(preferences);
+    
+    Object.keys(preferences).forEach(key => {
+
+      console.log(key);
+
+    });
+    
+    
+
+
+
     
 
     // if (preferences.seedSongs.length > 0):
@@ -120,6 +132,8 @@ export class SpotifyService {
     //     // return data['tracks'];
     //   }));
 
+
+    return true;
   }
 
 

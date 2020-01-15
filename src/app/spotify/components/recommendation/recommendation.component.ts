@@ -22,24 +22,29 @@ export class RecommendationComponent implements OnInit {
 
   recSettings = new FormGroup({
     danceableSettings: new FormGroup({
-      selectTarget: new FormControl(''),
-      minVal: new FormControl(''),
-      maxVal: new FormControl('')
+      selectTarget: new FormControl(false),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('danceability')
     }),
     acousticSettings: new FormGroup({
-      selectTarget: new FormControl(''),
-      minVal: new FormControl(''),
-      maxVal: new FormControl('')
+      selectTarget: new FormControl(false),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('acousticness')
     }),
     energySettings: new FormGroup({
-      selectTarget: new FormControl(''),
-      minVal: new FormControl(''),
-      maxVal: new FormControl('')
+      selectTarget: new FormControl(false),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('energy')
     }),
     instrumentalSettings: new FormGroup({
-      selectTarget: new FormControl(''),
-      minVal: new FormControl(''),
-      maxVal: new FormControl('')
+      selectTarget: new FormControl(false),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('energy')
+
     }), 
   });
 
@@ -63,7 +68,6 @@ export class RecommendationComponent implements OnInit {
 
     var songId = event.toElement.id;
     var songName = event.toElement.text;
-
 
     if (!this.seedSongs.some(e => e.id == songId) && songId != "" && this.seedSongs.length < 5)
     {
@@ -93,23 +97,45 @@ export class RecommendationComponent implements OnInit {
     }
   }
 
+
   submitRecs(){
     
-    if (this.seedSongs.length > 0 || this.seedArtists.length > 0){
+    let formraw = this.recSettings.getRawValue();
 
+    Object.keys(this.recSettings.controls).forEach(key => {
 
-      var targets = [];
-      var ranges = [];
-      var songSeeds = [];
+      let item = this.recSettings.controls[key].getRawValue();
 
-      if (this.danceableRange){
-
+      if (!item['selectTarget'] && item['minVal'] == '0.0' && item['maxVal'] == '1.0'){
+        delete formraw[key];
       }
 
+    });
 
-      return;
-    }
-    console.log("is 0");
+    this.spotify.getRecommendations(formraw);
+      // .subscribe( (data: any) => {
+      //   console.log(data);
+      //   // console.log(data[0]['track']['name']);
+      //   // console.log(data);
+
+      //   // var songDict: any[] = [];
+
+      //   // data.forEach(item =>{
+      //   //   // console.log(item['track']['name']);
+      //   //   // console.log(item['track']['id'])
+      //   //   songDict.push(
+      //   //     {id: item['track']['id'],
+      //   //     name: item['track']['name'],
+      //   //     type: "track"}
+      //   //   );
+      //   // });
+      //   // console.log(songDict);
+      //   // this.playlists = songDict;
+
+      // });
+    
+
+
   }
 
   listDrop(event){
@@ -139,7 +165,8 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-danceable-range" && !this.danceableRange){
       this.danceableRange = true;
       this.recSettings.get('danceableSettings')['controls']['minVal'].enable();
-      
+      this.recSettings.get('danceableSettings')['controls']['selectTarget'].setValue(false);
+
       // .controls['minVal'].enable();
       return;
     }
@@ -148,6 +175,9 @@ export class RecommendationComponent implements OnInit {
       this.danceableRange = false;
       // this.recSettings.controls['danceableSettings'].controls['minVal'].disable();
       this.recSettings.get('danceableSettings')['controls']['minVal'].disable();
+      this.recSettings.get('danceableSettings')['controls']['selectTarget'].setValue(true);
+
+      
       return;
     }
 
@@ -155,12 +185,16 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-acoustic-range" && !this.acousticRange){
       this.acousticRange = true;
       this.recSettings.get('acousticSettings')['controls']['minVal'].enable();
+      this.recSettings.get('acousticSettings')['controls']['selectTarget'].setValue(false);
+
       return;
     }
 
     if (id == "btn-acoustic-target" && this.acousticRange){
       this.acousticRange = false;
       this.recSettings.get('acousticSettings')['controls']['minVal'].disable();
+      this.recSettings.get('acousticSettings')['controls']['selectTarget'].setValue(true);
+
       return;
     }
 
@@ -168,12 +202,14 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-energy-range" && !this.energyRange){
       this.energyRange = true;
       this.recSettings.get('energySettings')['controls']['minVal'].enable();
+      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(false);
       return;
     }
 
     if (id == "btn-energy-target" && this.energyRange){
       this.energyRange = false;
       this.recSettings.get('energySettings')['controls']['minVal'].disable();
+      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(true);
       return;
     }
     
@@ -181,12 +217,16 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-instrumental-range" && !this.instrumentalRange){
       this.instrumentalRange = true;
       this.recSettings.get('instrumentalSettings')['controls']['minVal'].enable();
+      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(false);
+
       return;
     }
 
     if (id == "btn-instrumental-target" && this.instrumentalRange){
       this.instrumentalRange = false;
       this.recSettings.get('instrumentalSettings')['controls']['minVal'].disable();
+      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(true);
+
       return;
     }
 
