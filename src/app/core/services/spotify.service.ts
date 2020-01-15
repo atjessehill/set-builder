@@ -34,9 +34,7 @@ export class SpotifyService {
   getAllPlaylists(){
 
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
-
-
+      'Authorization': 'Bearer BQCm_xpVQ14ACDODgqdx8Ta3_D6w1XIZDYGKuhTMzXgnxVp4cJa9c41xHrxyms1rH1L4_v89pijY239itDsQEH81Ck81danVuGDj5JNLhzdTI7s1-9EPXa1o5CxdDUD-_D20VfjGEElxOqUG4LVUrb4FI8FmSA6G5UnB872vIXr1Bt5BEwTEsf43HBtmBk9NpuYMzx8phA'
     });
 
     var username = 'jup118';
@@ -48,7 +46,7 @@ export class SpotifyService {
 
   getPlaylistTracks(playlistId: string){
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
+      'Authorization': 'Bearer BQCm_xpVQ14ACDODgqdx8Ta3_D6w1XIZDYGKuhTMzXgnxVp4cJa9c41xHrxyms1rH1L4_v89pijY239itDsQEH81Ck81danVuGDj5JNLhzdTI7s1-9EPXa1o5CxdDUD-_D20VfjGEElxOqUG4LVUrb4FI8FmSA6G5UnB872vIXr1Bt5BEwTEsf43HBtmBk9NpuYMzx8phA'
     });
 
     var url = 'https://api.spotify.com/v1/playlists/'.concat(playlistId,'/tracks');
@@ -64,76 +62,81 @@ export class SpotifyService {
 
   }
 
-  getRecommendations(preferences){
-    console.log()
-    console.log(preferences);
-    
-    Object.keys(preferences).forEach(key => {
+  getRecommendations(seedVals){
+    console.log(seedVals);
 
-      console.log(key);
+    let songs = seedVals.songs;
+    let tunables = seedVals.form;
+
+    let tunablesList = [];
+    let tunablesUrl;
+    
+    let recList = [];
+    let recUrl = "";
+    
+    if (seedVals.hasOwnProperty('songs')){
+      console.log("has own property");
+      let songList = [];
+      let songUrl;
+
+      Object.keys(songs).forEach(function(key){
+
+        // artistUrl = artistUrl+songs[key]+',';
+  
+        songList.push(songs[key]['id']);
+  
+      });
+
+      if (songList.length > 0){
+        songUrl = "seed_tracks="+songList.join(',')
+        recList.push(songUrl);
+      }
+
+    }
+
+
+
+
+    Object.keys(tunables).forEach(function(key){
+
+      // console.log(tunables[key]);
+
+      let appendVal;
+      if (tunables[key]['isRange']){
+        
+        let minVal = "min_"+tunables[key]["spotName"]+"="+tunables[key]["minVal"];
+        let maxVal = "max_"+tunables[key]["spotName"]+"="+tunables[key]["maxVal"];
+        tunablesList.push(minVal, maxVal);
+      }else{
+
+        let tgtVal = "target_"+tunables[key]["spotName"]+"="+tunables[key]["maxVal"];
+        tunablesList.push(tgtVal);
+      }
 
     });
-    
-    
 
+    if (tunablesList.length > 0){
+      tunablesUrl = tunablesList.join('&');
+      recList.push(tunablesUrl);
+    }
 
+    recUrl = recList.join('&');
+  
 
-    
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer BQCm_xpVQ14ACDODgqdx8Ta3_D6w1XIZDYGKuhTMzXgnxVp4cJa9c41xHrxyms1rH1L4_v89pijY239itDsQEH81Ck81danVuGDj5JNLhzdTI7s1-9EPXa1o5CxdDUD-_D20VfjGEElxOqUG4LVUrb4FI8FmSA6G5UnB872vIXr1Bt5BEwTEsf43HBtmBk9NpuYMzx8phA'
+    });
 
-    // if (preferences.seedSongs.length > 0):
+    var url = 'https://api.spotify.com/v1/recommendations?'.concat(recUrl)+"&market=US";
+    console.log(url);
+    return this.http.get(url, {  headers  })
+      .pipe( map(data =>{
+        // let items = data['items'];
+        // let name = items[4];
+        // console.log(name);
+        return data['tracks'];
+      }));
 
-
-
-
-    // var seedTracks = "seed_tracks=";
-    // songSeeds.forEach(song => {
-    //   seedTracks = seedTracks.concat(song.id,',');
-    // });
-
-    // seedTracks = seedTracks.replace(/,\s*$/, "");
-
-    // const headers = new HttpHeaders({
-    //   'Authorization': 'Bearer BQCIpFfjSerSNQYPrG2qVBiWParRgMLivPi7FUGIVYzoumHcHKhEP18tsoBhFMi2KrTBEIhXxLrDiRgfTZ73KlB2cUwSG-FZRTJFUZhr4zOMY45wJzh1aovR9irZT23dQ4p8AOMUCf9gQE2HnMlZV_pxobHtnhiW4W8c2bxzqBmv93nRcvBLSsSmnIVhS_CEtuSvV4KD4di-EhEwoHsJ'
-
-    // });
-
-    // var url = 'https://api.spotify.com/v1/recommendations?'.concat(seedTracks);
-    
-    // return this.http.get(url, {  headers  })
-    //   .pipe( map(data => {
-    //     let tracksJSON = data['tracks'];
-    //     let tracks = [];
-    //     tracksJSON.forEach(track => {
-
-    //       let trackArtists = [];
-    //       let artistConcat = "";
-    //       track['artists'].forEach(artist =>{
-            
-    //         artistConcat = artistConcat.concat(artist['name'],',');
-    //         trackArtists.push({
-    //           artistId: artist['id'],
-    //           artistName: artist['name'],
-    //           type: 'artist'
-    //         });
-
-    //       });
-
-    //       tracks.push({
-    //         id: track['id'],
-    //         artist: trackArtists,
-    //         artistString: artistConcat,
-    //         trackName: track['name'],
-    //         albumName: track['album']['name']
-    //       });
-
-    //     });
-
-    //     return tracks;
-    //     // return data['tracks'];
-    //   }));
-
-
-    return true;
   }
 
 

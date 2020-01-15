@@ -11,6 +11,7 @@ import { SpotifyService } from 'src/app/core/services/spotify.service';
 export class RecommendationComponent implements OnInit {
 
   playlists: any[] = [];
+  songRecomendations: any = [];
   isPlaylists: boolean = true;
   debugging: boolean = true;
 
@@ -22,25 +23,25 @@ export class RecommendationComponent implements OnInit {
 
   recSettings = new FormGroup({
     danceableSettings: new FormGroup({
-      selectTarget: new FormControl(false),
+      isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
       spotName: new FormControl('danceability')
     }),
     acousticSettings: new FormGroup({
-      selectTarget: new FormControl(false),
+      isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
       spotName: new FormControl('acousticness')
     }),
     energySettings: new FormGroup({
-      selectTarget: new FormControl(false),
+      isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
       spotName: new FormControl('energy')
     }),
     instrumentalSettings: new FormGroup({
-      selectTarget: new FormControl(false),
+      isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
       spotName: new FormControl('energy')
@@ -106,35 +107,75 @@ export class RecommendationComponent implements OnInit {
 
       let item = this.recSettings.controls[key].value;
 
-      if (!item['selectTarget'] && item['minVal'] == '0.0' && item['maxVal'] == '1.0'){
+      if (item['isRange'] && item['minVal'] == '0.0' && item['maxVal'] == '1.0'){
         delete formraw[key];
       }
 
     });
 
-    this.spotify.getRecommendations(formraw);
-      // .subscribe( (data: any) => {
-      //   console.log(data);
-      //   // console.log(data[0]['track']['name']);
-      //   // console.log(data);
+    let sendDict = {
+      form: formraw,
+    }
 
-      //   // var songDict: any[] = [];
+    if (this.seedSongs.length > 0){
 
-      //   // data.forEach(item =>{
-      //   //   // console.log(item['track']['name']);
-      //   //   // console.log(item['track']['id'])
-      //   //   songDict.push(
-      //   //     {id: item['track']['id'],
-      //   //     name: item['track']['name'],
-      //   //     type: "track"}
-      //   //   );
-      //   // });
-      //   // console.log(songDict);
-      //   // this.playlists = songDict;
+      sendDict['songs'] = this.seedSongs;
+    }
 
-      // });
-    
 
+
+
+    // var test = this.spotify.getRecommendations(sendDict);
+    // console.log(test);
+
+    if (this.debugging){
+
+      this.songRecomendations = [
+        {id: "5mZLb0zrBBpyqhQKJ6c8Ov", name: "Running Up That Hill", type: "track"},
+        {id: "5Vq2NGaB9ceeROuvx1yXKg", name: "Said (Coke Studio Africa)", type: "track"},
+        {id: "79pgmwpD7OLk22bi87Zgnx", name: "One Grain", type: "track"},
+        {id: "5nZ4NCW8rdh7mK95VWvERC", name: "Turn It Around - Monkey Safari Remix", type: "track"},
+        {id: "5F9MTKbl71pDkHVpbyXjwK", name: "Coming Back - Maya Jane Coles Remix", type: "track"},
+        {id: "26UCZAfUYfAsE25ls7gS1m", name: "Stimela Sasezola", type: "track"},
+        {id: "6zmGmMfP6FsHvKwEonQjFU", name: "Insulin", type: "track"},
+        {id: "56d4iujHilI89EaPxDwga6", name: "Inkanyezi", type: "track"},
+        {id: "2cV5IKy6RdZ5RyN6mLGy1j", name: "Reach It", type: "track"},
+        {id: "6syOrBhOUeNAvCTt5J3weM", name: "Drip Siphi Iskorobho", type: "track"},
+        {id: "1WHGJLdJNOh692MPLwYxcu", name: "Pour", type: "track"},
+        {id: "1YWSj1KlUSQLwyBdFL6q8P", name: "Form", type: "track"},
+        {id: "0gwNGHcBRYtF7mvgUczVo1", name: "Return to Oz - ARTBAT Remix", type: "track"},
+        {id: "4cNddE5nZx8zpDJlwzxBkQ", name: "Witch Hunt", type: "track"},
+        {id: "43sbVRZNKLV4gtFm4Wx7hb", name: "Vincent Price", type: "track"},
+        {id: "3wZnibMPST2XPmYujhvE8d", name: "Thandiwe", type: "track"},
+        {id: "4W76PWtsmhFsKQV71Ob2pO", name: "Cure", type: "track"},
+        {id: "2spksuDM1a7wICynsNMwGX", name: "When I Am Only a Dream", type: "track"},
+        {id: "3lpb1iviYHWDq9m3h0v9mL", name: "Now's The Only Time I Know", type: "track"},
+        {id: "5GVm0Jyse3MfehoC1T6NiR", name: "Salvation", type: "track"}
+      ]
+
+
+
+    }else{
+      this.spotify.getRecommendations(sendDict)
+      .subscribe( (data: any) => {
+  
+        console.log(data);
+        var songDict: any[] = [];
+        data.forEach(item =>{
+          songDict.push(
+            {id: item['id'],
+            name: item['name'],
+            type: "track"}
+          );
+        });
+  
+  
+        this.songRecomendations = songDict;
+      });
+      
+    }
+
+    console.log(this.songRecomendations);
 
   }
 
@@ -165,7 +206,7 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-danceable-range" && !this.danceableRange){
       this.danceableRange = true;
       this.recSettings.get('danceableSettings')['controls']['minVal'].enable();
-      this.recSettings.get('danceableSettings')['controls']['selectTarget'].setValue(false);
+      this.recSettings.get('danceableSettings')['controls']['isRange'].setValue(true);
 
       // .controls['minVal'].enable();
       return;
@@ -175,7 +216,7 @@ export class RecommendationComponent implements OnInit {
       this.danceableRange = false;
       // this.recSettings.controls['danceableSettings'].controls['minVal'].disable();
       this.recSettings.get('danceableSettings')['controls']['minVal'].disable();
-      this.recSettings.get('danceableSettings')['controls']['selectTarget'].setValue(true);
+      this.recSettings.get('danceableSettings')['controls']['isRange'].setValue(false);
 
       
       return;
@@ -185,7 +226,7 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-acoustic-range" && !this.acousticRange){
       this.acousticRange = true;
       this.recSettings.get('acousticSettings')['controls']['minVal'].enable();
-      this.recSettings.get('acousticSettings')['controls']['selectTarget'].setValue(false);
+      this.recSettings.get('acousticSettings')['controls']['isRange'].setValue(true);
 
       return;
     }
@@ -193,7 +234,7 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-acoustic-target" && this.acousticRange){
       this.acousticRange = false;
       this.recSettings.get('acousticSettings')['controls']['minVal'].disable();
-      this.recSettings.get('acousticSettings')['controls']['selectTarget'].setValue(true);
+      this.recSettings.get('acousticSettings')['controls']['isRange'].setValue(false);
 
       return;
     }
@@ -202,14 +243,14 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-energy-range" && !this.energyRange){
       this.energyRange = true;
       this.recSettings.get('energySettings')['controls']['minVal'].enable();
-      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(false);
+      this.recSettings.get('energySettings')['controls']['isRange'].setValue(true);
       return;
     }
 
     if (id == "btn-energy-target" && this.energyRange){
       this.energyRange = false;
       this.recSettings.get('energySettings')['controls']['minVal'].disable();
-      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(true);
+      this.recSettings.get('energySettings')['controls']['isRange'].setValue(false);
       return;
     }
     
@@ -217,7 +258,7 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-instrumental-range" && !this.instrumentalRange){
       this.instrumentalRange = true;
       this.recSettings.get('instrumentalSettings')['controls']['minVal'].enable();
-      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(false);
+      this.recSettings.get('energySettings')['controls']['isRange'].setValue(true);
 
       return;
     }
@@ -225,7 +266,7 @@ export class RecommendationComponent implements OnInit {
     if (id == "btn-instrumental-target" && this.instrumentalRange){
       this.instrumentalRange = false;
       this.recSettings.get('instrumentalSettings')['controls']['minVal'].disable();
-      this.recSettings.get('energySettings')['controls']['selectTarget'].setValue(true);
+      this.recSettings.get('energySettings')['controls']['isRange'].setValue(false);
 
       return;
     }
@@ -293,7 +334,6 @@ export class RecommendationComponent implements OnInit {
   }
 
   playlistClicked(event){
-    console.log('double click');
     // var split = (event.toElement.id).split('.');
     var playlistId = event.toElement.id;
     this.isPlaylists = false;
