@@ -15,38 +15,109 @@ export class RecommendationComponent implements OnInit {
   isPlaylists: boolean = true;
   debugging: boolean = true;
 
+  formGenData = []
+  rangeSelections = {
+    'danceableRange': true,
+    'acousticRange': true,
+    'energyRange': true,
+    'instrumentalnessRange': true,
+    'livenessRange': true,
+    'popularityRange': true,
+    'speechinessRange' : true,
+    'valenceRange': true,
+  }
+
   constructor(private spotify: SpotifyService) { 
+
+    Object.keys(this.recSettings.controls).forEach(key => {
+
+      let item = this.recSettings.controls[key].value;
+      let formString = item['htmlName'];
+      item[formString] = true;
+
+      let objectName = item['spotName'];
+      let settingNames = item['spotName'] + 'Settings';
+      let idTarget = 'btn-'+item['spotName']+'-target';
+      let idRange = 'btn-'+item['spotName']+'-range';
+
+
+
+      let fullItem = { 
+        "objectName": objectName,
+        "item": item,
+        'settings': settingNames,
+        'idTarget': idTarget,
+        'idRange': idTarget
+      }
+
+      this.formGenData.push(fullItem);
+      
+    });
+    console.log(this.formGenData);
 
     this.getPlaylists();
   }
 
-
   recSettings = new FormGroup({
-    danceableSettings: new FormGroup({
+    danceabilitySettings: new FormGroup({
       isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
-      spotName: new FormControl('danceability')
+      spotName: new FormControl('danceability'),
+      htmlName: new FormControl('danceabilityRange')
     }),
-    acousticSettings: new FormGroup({
+    acousticnessSettings: new FormGroup({
       isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
-      spotName: new FormControl('acousticness')
+      spotName: new FormControl('acousticness'),
+      htmlName: new FormControl('acousticnessRange')
     }),
     energySettings: new FormGroup({
       isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
-      spotName: new FormControl('energy')
+      spotName: new FormControl('energy'),
+      htmlName: new FormControl('energyRange')
     }),
-    instrumentalSettings: new FormGroup({
+    instrumentalnessSettings: new FormGroup({
       isRange: new FormControl(true),
       minVal: new FormControl('0.0'),
       maxVal: new FormControl('1.0'),
-      spotName: new FormControl('energy')
+      spotName: new FormControl('instrumentalness'),
+      htmlName: new FormControl('instrumentalnessRange')
 
     }), 
+    livenessSettings: new FormGroup({
+      isRange: new FormControl(true),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('liveness'),
+      htmlName: new FormControl('livenessRange')
+
+    }),
+    popularitySettings: new FormGroup({
+      isRange: new FormControl(true),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('popularity'),
+      htmlName: new FormControl('popularityRange')
+    }),
+    speechinessSettings: new FormGroup({
+      isRange: new FormControl(true),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('speechiness'),
+      htmlName: new FormControl('speechinessRange')
+    }),
+    valenceSettings: new FormGroup({
+      isRange: new FormControl(true),
+      minVal: new FormControl('0.0'),
+      maxVal: new FormControl('1.0'),
+      spotName: new FormControl('valence'),
+      htmlName: new FormControl('valenceRange')
+
+    }),
   });
 
   ngOnInit() {
@@ -61,7 +132,11 @@ export class RecommendationComponent implements OnInit {
   acousticRange: boolean = true;
   energyRange: boolean = true;
   instrumentalRange: boolean = true;
-  
+  livenessRange: boolean = true;
+  popularityRange: boolean = true;
+  speechRange: boolean = true;
+  valenceRange: boolean = true;
+
 
 
   addSong(event){
@@ -123,7 +198,7 @@ export class RecommendationComponent implements OnInit {
     }
 
 
-
+    console.log(sendDict);
 
     // var test = this.spotify.getRecommendations(sendDict);
     // console.log(test);
@@ -197,79 +272,50 @@ export class RecommendationComponent implements OnInit {
 
   }
 
-  changeBtnDance(event){
+  changeBtnRange(event){
 
     var id = event.toElement.id;
 
+    let idSplit = id.split('-');
 
-    //danceability
-    if (id == "btn-danceable-range" && !this.danceableRange){
-      this.danceableRange = true;
-      this.recSettings.get('danceableSettings')['controls']['minVal'].enable();
-      this.recSettings.get('danceableSettings')['controls']['isRange'].setValue(true);
-
-      // .controls['minVal'].enable();
-      return;
-    }
-
-    if (id == "btn-danceable-target" && this.danceableRange){
-      this.danceableRange = false;
-      // this.recSettings.controls['danceableSettings'].controls['minVal'].disable();
-      this.recSettings.get('danceableSettings')['controls']['minVal'].disable();
-      this.recSettings.get('danceableSettings')['controls']['isRange'].setValue(false);
-
-      
-      return;
-    }
-
-    //acoustic
-    if (id == "btn-acoustic-range" && !this.acousticRange){
-      this.acousticRange = true;
-      this.recSettings.get('acousticSettings')['controls']['minVal'].enable();
-      this.recSettings.get('acousticSettings')['controls']['isRange'].setValue(true);
-
-      return;
-    }
-
-    if (id == "btn-acoustic-target" && this.acousticRange){
-      this.acousticRange = false;
-      this.recSettings.get('acousticSettings')['controls']['minVal'].disable();
-      this.recSettings.get('acousticSettings')['controls']['isRange'].setValue(false);
-
-      return;
-    }
-
-    //energy
-    if (id == "btn-energy-range" && !this.energyRange){
-      this.energyRange = true;
-      this.recSettings.get('energySettings')['controls']['minVal'].enable();
-      this.recSettings.get('energySettings')['controls']['isRange'].setValue(true);
-      return;
-    }
-
-    if (id == "btn-energy-target" && this.energyRange){
-      this.energyRange = false;
-      this.recSettings.get('energySettings')['controls']['minVal'].disable();
-      this.recSettings.get('energySettings')['controls']['isRange'].setValue(false);
-      return;
-    }
+    let selectorType = idSplit[2];
+    let attributeType = idSplit[1];
+    let attributeForm = attributeType + 'Settings';
     
-    //Instrumentalness
-    if (id == "btn-instrumental-range" && !this.instrumentalRange){
-      this.instrumentalRange = true;
-      this.recSettings.get('instrumentalSettings')['controls']['minVal'].enable();
-      this.recSettings.get('energySettings')['controls']['isRange'].setValue(true);
+    let formGenIndex;
 
-      return;
+    for (let index = 0; index<this.formGenData.length; index++){
+
+      if (this.formGenData[index]['objectName'] === attributeType){
+        formGenIndex = index;
+      }
+
     }
 
-    if (id == "btn-instrumental-target" && this.instrumentalRange){
-      this.instrumentalRange = false;
-      this.recSettings.get('instrumentalSettings')['controls']['minVal'].disable();
-      this.recSettings.get('energySettings')['controls']['isRange'].setValue(false);
 
-      return;
+    if (selectorType === 'range'){
+
+      let formIsRange = this.recSettings.get([attributeForm, `isRange`]).value;
+      if (!formIsRange) {
+        // this.rangeSelections[attributeType + 'Range'] = true;
+        this.formGenData[formGenIndex]['item']['isRange'] = true;
+        this.recSettings.get(attributeForm)['controls']['minVal'].enable();
+        this.recSettings.get(attributeForm)['controls']['isRange'].setValue(true);
+      }
+
+    } else if (selectorType === 'target'){
+
+      let formIsTarget = this.recSettings.get([attributeForm, `isRange`]).value;
+      if (formIsTarget) {
+        // this.rangeSelections[attributeType + 'Range'] = false;
+        this.formGenData[formGenIndex]['item']['isRange'] = false;
+        this.recSettings.get(attributeForm)['controls']['minVal'].disable();
+        this.recSettings.get(attributeForm)['controls']['isRange'].setValue(false);
+
+      }
+
     }
+
 
   }
 

@@ -1,16 +1,5 @@
 <div class="section">
 
-    <!-- <div cdkDropList id="search-song-list" class="songSeeds" cdkDropListConnectedTo="playlist-song-list" (cdkDropListDropped)="listDrop($event)">
-        <div *ngFor="let song of seedSongs" cdkDrag>
-            <div class="seedItemMain">
-                <a class="seedItem">{{song.name}}</a>
-                <button class="button is-small is-danger seedRemove" (click)="removeSeed($event)">x</button>
-            </div>
-    
-        </div>
-        
-    </div> -->
-
     <div class="seeds">
         <div *ngFor="let song of seedSongs">
             <a class="seedItem">{{song.name}}</a>
@@ -23,60 +12,92 @@
 
         <button class="button is-success" (click)="submitRecs()">Submit</button>
 
-        <div class="value-container">
-            <div class="buttons has-addons attributeBtns">
-                <button id="btn-danceable-range" class="button" [class.is-success]="danceableRange" (click)="changeBtnDance($event)">R</button>
-                <button id="btn-danceable-target" class="button" [class.is-success]="!danceableRange" (click)="changeBtnDance($event)">T</button>
-            </div>
-            <div formGroupName="danceableSettings" class="valueSelectors">
+        <div class="attribute-container-parent">
+
+            <div *ngFor="let formItem of formGenData" class="attribute-item-container">
+                <div class="buttons has-addons attributeBtns">
+                    <button id="{{ formItem.idRange }}" class="button" [class.is-success]="formItem.item.isRange" (click)="changeBtnRange($event)">R</button>
+                    <button id="{{ formItem.idTarget }}" class="button" [class.is-success]="!formItem.item.isRange" (click)="changeBtnRange($event)">T</button>
+                </div>
+                <div [formGroupName]="formItem.settings" class="valueSelectors">
                     <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
                     <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
-            </div>
-        </div>
-        <br>
+                </div>
 
-        <!-- Danceability  -->
+            </div>
+
+            <!--  -->
+
+            <!-- Danceability  -->
+
+            <!-- <div class="attribute-item-container">
+                <div class="buttons has-addons attributeBtns">
+                    <button id="btn-danceable-range" class="button" [class.is-success]="rangeSelections['danceableRange']" (click)="changeBtnRange($event)">R</button>
+                    <button id="btn-danceable-target" class="button" [class.is-success]="!rangeSelections['danceableRange']" (click)="changeBtnRange($event)">T</button>
+                </div>
+                <div formGroupName="danceableSettings" class="valueSelectors">
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
+                </div>
+            </div> -->
+            
+
+
+
+            <!-- Acoustics  -->
+            <!-- <div class="attribute-item-container">
+                <div class="buttons has-addons attributeBtns">
+                    <button id="btn-acoustic-range" class="button attributeBtn" [class.is-success]="rangeSelections['acousticRange']" (click)="changeBtnRange($event)">R</button>
+                    <button id="btn-acoustic-target" class="button attributeBtn" [class.is-success]="!rangeSelections['acousticRange']" (click)="changeBtnRange($event)">T</button>
+                </div>
+                <div class="valueSelectors" formGroupName="acousticSettings">
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
+                </div>
+            </div> -->
+
+            <!-- ENERGY  -->
+            <!-- <div class="attribute-item-container">
+                <div class="buttons has-addons attributeBtns">
+                    <button id="btn-energy-range" class="button attributeBtn" [class.is-success]="energyRange" (click)="changeBtnRange($event)">R</button>
+                    <button id="btn-energy-target" class="button attributeBtn" [class.is-success]="!energyRange" (click)="changeBtnRange($event)">T</button>
+                </div>
+                <div class="valueSelectors" formGroupName="energySettings">
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
+                </div>
+            </div> -->
         
-        <!-- Acoustics  -->
-        <div class="value-container">
-            <div class="buttons has-addons attributeBtns">
-                <button id="btn-acoustic-range" class="button attributeBtn" [class.is-success]="acousticRange" (click)="changeBtnDance($event)">R</button>
-                <button id="btn-acoustic-target" class="button attributeBtn" [class.is-success]="!acousticRange" (click)="changeBtnDance($event)">T</button>
-            </div>
-            <div class="valueSelectors" formGroupName="acousticSettings">
-                    <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
-                    <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
-            </div>
+            <!-- INSTRUMENTALNESS -->
+            <!-- <div class="attribute-item-container">
+                <div class="buttons has-addons attributeBtns">
+                    <button id="btn-instrumental-range" class="button attributeBtn" [class.is-success]="instrumentalRange" (click)="changeBtnRange($event)">R</button>
+                    <button id="btn-instrumental-target" class="button attributeBtn" [class.is-success]="!instrumentalRange" (click)="changeBtnRange($event)">T</button>
+                </div>
+                <div class="valueSelectors" formGroupName="instrumentalSettings">
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
+                </div>
+            </div> -->
+    
+            <!-- LIVENESS SETTINGS -->
+            <!-- <div class="attribute-item-container">
+                <div class="buttons has-addons attributeBtns">
+                    <button id="btn-liveness-range" class="button attributeBtn" [class.is-success]="livenessRange" (click)="changeBtnRange($event)">R</button>
+                    <button id="btn-liveness-target" class="button attributeBtn" [class.is-success]="!livenessRange" (click)="changeBtnRange($event)">T</button>
+                </div>
+                <div class="valueSelectors" formGroupName="livenessSettings">
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
+                        <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
+                </div>
+            </div> -->
+
         </div>
 
-        <br>
-        <!-- ENERGY  -->
-        <div class="value-container">
-            <div class="buttons has-addons attributeBtns">
-                <button id="btn-energy-range" class="button attributeBtn" [class.is-success]="energyRange" (click)="changeBtnDance($event)">R</button>
-                <button id="btn-energy-target" class="button attributeBtn" [class.is-success]="!energyRange" (click)="changeBtnDance($event)">T</button>
-            </div>
-            <div class="valueSelectors" formGroupName="energySettings">
-                    <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
-                    <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
-            </div>
-        </div>
-        <br>
-    
-        <!-- INSTRUMENTALNESS -->
-        <div class="value-container">
-            <div class="buttons has-addons attributeBtns">
-                <button id="btn-instrumental-range" class="button attributeBtn" [class.is-success]="instrumentalRange" (click)="changeBtnDance($event)">R</button>
-                <button id="btn-instrumental-target" class="button attributeBtn" [class.is-success]="!instrumentalRange" (click)="changeBtnDance($event)">T</button>
-            </div>
-            <div class="valueSelectors" formGroupName="instrumentalSettings">
-                    <input type="number" step="0.01" min="0.0" max=1.0 formControlName="minVal" placeholder="0.0" value="0.0"> Min Value
-                    <input type="number" step="0.01" min="0.0" max=1.0 formControlName="maxVal" placeholder="1.0" value="1.0"> Max Value
-            </div>
-        </div>
-    
     </div>
 
+
+    
 </div>
 
 <div class="section">
